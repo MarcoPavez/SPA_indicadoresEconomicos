@@ -28,12 +28,13 @@ app.use(cors(
 
 app.get(`/indicadores`, (req, res) => {
     console.log(req)
-    const indicador = req.params.indicadorr
+    const indicador = req.query.indicadorr
+    const fecha = req.query.fechaa
 
     const options = {
         method: 'GET',
-        url: `https://mindicador.cl/api`,
-        params:{indicadorr:indicador}
+        url: `/indicadores`,
+        baseURL:`https://mindicador.cl/api`
 
     }
     axios.request(options)
