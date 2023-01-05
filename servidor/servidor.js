@@ -2,6 +2,9 @@ const express = require('express')
 const cors = require('cors')
 require('dotenv').config()
 const axios = require('axios')
+const fetch = (...args) => 
+import('node-fetch').then(({default:fetch}) => fetch(...args))
+
 
 const app = express()
 
@@ -26,21 +29,38 @@ app.use(cors(
 
 
 
-app.get(`/indicadores`, (req, res) => {
+/* app.get("/:indicadorr", (req, res) => {
     console.log(req)
-    const indicador = req.query.indicadorr
+    const {indicadorr} = req.query.tipo_indicador
     const fecha = req.query.fechaa
 
     const options = {
-        method: 'GET',
-        url: `/indicadores`,
-        baseURL:`https://mindicador.cl/api`
+        method: 'get',
+        url:`https://mindicador.cl`,
+        baseURL:`/api`+`/${indicadorr}`
+    
 
     }
     axios.request(options)
         .then(response => {
             res.json(response.data)
         })
+
+}) */
+
+
+
+app.get('/:tipoIndicador/:fecha', async(req,res) => {
+
+    const {tipoIndicador} = req.params
+    const {fecha} = req.params
+
+    const respuestaApi = await fetch(
+        'https://mindicador.cl/api/'+tipoIndicador+"/"+fecha
+    )
+
+    const respuestaApiJson = await respuestaApi.json()
+    res.send(respuestaApiJson)
 
 })
 
