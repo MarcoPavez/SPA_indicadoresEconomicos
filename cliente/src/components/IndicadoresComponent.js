@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 const IndicadoresComponent = () => {
@@ -6,24 +6,23 @@ const IndicadoresComponent = () => {
   const [fecha, setFecha] = useState("");
   const [indicador, setIndicadorSeleccionado] = useState();
 
-  /* const TransformarFecha = useCallback((fecha) => {
-    setFecha((fecha) => {
-      var d = new Date(fecha),
-        month = "" + (d.getMonth() + 1),
-        day = "" + d.getDate(),
-        year = d.getFullYear();
+  const TransformarFecha = (fecha, nuevaFecha) => {
+    var d = new Date(fecha),
+      month = "" + (d.getMonth() + 1),
+      day = "" + (d.getDate() + 1),
+      year = d.getFullYear();
 
-      if (month.length < 2) month = "0" + month;
-      if (day.length < 2) day = "0" + day;
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
 
-      return [day, month, year].join("-");
-    });
-  }); */
+    nuevaFecha = [day, month, year].join("-");
+    return nuevaFecha;
+  };
 
-  const TraerDatos = () => {
+  const TraerDatos = (req, res) => {
     const options = {
       method: "get",
-      url: "http://localhost:5000/" + indicador + "/" + fecha,
+      url: "http://localhost:5000/" + indicador + "/" + TransformarFecha(fecha),
     };
     axios.request(options).then((response) => {
       console.log(response.data);
@@ -31,11 +30,10 @@ const IndicadoresComponent = () => {
     });
   };
 
-  useEffect(() => {
-    if (indicador) TraerDatos();
-  }, [indicador]);
-
-  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    TraerDatos();
+  };
 
   return (
     <div>
@@ -50,6 +48,7 @@ const IndicadoresComponent = () => {
             onChange={(ff) => setFecha(ff.target.value)}
           ></input>
         </label>
+        <h1>La fecha Seleccionada es: {TransformarFecha(fecha)}</h1>
       </div>
 
       <label>
@@ -77,13 +76,19 @@ const IndicadoresComponent = () => {
         </select>
       </label>
 
-      <button type="submit">Submit</button>
+      <button type="submit" value="true" onClick={handleSubmit}>
+        Submit
+      </button>
 
       {indicador && fecha && datosServidor && (
         <div className="valorIndicador">
           <h1> Indicador Seleccionado : {indicador}</h1>
 
-          <h3>Valor del indicador: {console.log(datosServidor)}</h3>
+          <h1> La fecha seleccionada es: {TransformarFecha(fecha)}</h1>
+
+          <h1>
+            El valor del indicador a la fecha seleccionada es: {datosServidor.serie[0].valor}
+          </h1>
         </div>
       )}
     </div>
