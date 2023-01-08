@@ -104,7 +104,7 @@ const IndicadoresComponent = () => {
           <h5 class="text-center">
             {" "}
             A la fecha seleccionada ( {TransformarFecha(fecha)} ), el valor del
-            indicador seleccionado ({indicador}) es de{" "}
+            indicador seleccionado ({datosServidor.nombre}) es de{" "}
             {datosServidor.serie[0].valor} {datosServidor.unidad_medida}
           </h5>
           <div  class="d-flex justify-content-center mt-md-4" >
