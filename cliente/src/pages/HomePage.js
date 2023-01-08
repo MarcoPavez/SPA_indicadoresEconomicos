@@ -4,7 +4,7 @@ import IndicadoresComponent from "../components/IndicadoresComponent";
 
 const HomePage = () => {
     return(
-        <div>
+        <div class="container">
             <IndicadoresComponent/>
         </div>
     )
