@@ -1,2 +1,2 @@
 # SPA_indicadoresEconomicos
-Single Page Application que consume API desde www.mindicador.cl
+NodeJS | ReactJS | Single Page Application. Consume API desde www.mindicador.cl
